@@ -39,3 +39,12 @@ img1 : Object Image (This will be the zoomed in version)
 img2 : Scene Image (This will be the Map version, scaled out as compared to the object image)
 resize parameter : This parameter is to give a power index to scale down the image. An input k will scale down by 2^k (In an UAV, this parameter will be a function of height of the UAV)
 Threshold multipler for min distance: Depending on the number of "good matches" recived, this parameter will give an appropriate multipler to filter out the best possible matches. Heuristically can be made a function of the resize parameter and consequently the height.
+
+
+AUTHORS:
+
+Abhinav Gupta
+
+CONSTRBUTORS:
+
+Ritesh Ranjan
