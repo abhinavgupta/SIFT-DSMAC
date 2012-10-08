@@ -91,26 +91,24 @@ int main (int argc, char** argv)
 		}
 	}
 
-	ASSERT(good_matches.size() != 0 , "No good matches were detected!");	// Checking whether good matches were found
-
 	std::cout<<good_matches.size()<<std::endl;
-	Mat img_matches;
+	ASSERT(good_matches.size() >= 4 , "Not enough good matches were detected!");	// Checking whether good matches were found
 
+	Mat img_matches;
 
 	drawMatches (img_object, keypoints_object, img_scene, keypoints_scene, good_matches, img_matches, Scalar::all(-1), Scalar::all(-1), vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
 
 	std::vector<Point2f> obj;
 	std::vector<Point2f> scene;
 
-	for (int i = 0; i <good_matches.size(); i++)
+	for (std::vector<DMatch>::iterator it = good_matches.begin(); it != good_matches.end(); it++ )
 	{
-		obj.push_back(keypoints_object[ good_matches[i].queryIdx ].pt);
-		scene.push_back(keypoints_scene[ good_matches[i].trainIdx ].pt);
+		obj.push_back(keypoints_object[ (*it).queryIdx ].pt);
+		scene.push_back(keypoints_scene[ (*it).trainIdx ].pt);
 	}
 
-
+	
 	   Mat H = findHomography( obj, scene, CV_RANSAC );
-
   //-- Get the corners from the image_1 ( the object to be "detected" )
   std::vector<Point2f> obj_corners(4);
   obj_corners[0] = cvPoint(0,0); obj_corners[1] = cvPoint( img_object.cols, 0 );
