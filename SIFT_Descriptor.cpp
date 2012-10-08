@@ -1,4 +1,3 @@
-
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
@@ -91,7 +90,7 @@ int main (int argc, char** argv)
 		}
 	}
 
-	ASSERT(good_matches.size() != 0 , "No good matches were detected!");	// Checking whether good matches were found
+	ASSERT(good_matches.size() >= 4 , "Not enough good matches were detected!");	// Checking whether good matches were found
 
 	std::cout<<good_matches.size()<<std::endl;
 	Mat img_matches;
