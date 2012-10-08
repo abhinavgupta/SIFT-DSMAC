@@ -1,13 +1,23 @@
+
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
+#include <assert.h>
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
+#include "opencv2/nonfree/features2d.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+
+#define ASSERT(condition, message) \
+        if (! (condition)) { \
+            std::cerr << "\nAssertion `" #condition "` failed "	\
+			<< "\nLine : " << __LINE__ << "\n" << message << std::endl; \
+            std::exit(EXIT_FAILURE); \
+        } \
 
 
 using namespace cv;
@@ -15,16 +25,15 @@ using namespace cv;
 void readme();												//README function for showing usage
 
 
-
 int main (int argc, char** argv)
 
 {
 	if(argc != 5)
 	{
-		readme();										//Arguments less than three triggers README function
+		readme();										//Arguments less than five triggers README function
 		return -1;
 	}
-	
+
 	Mat img_object;
 	Mat img_object_temp = imread( argv[1], CV_LOAD_IMAGE_GRAYSCALE);				//Loading Object, scene images
 	Mat img_scene  = imread( argv[2], CV_LOAD_IMAGE_GRAYSCALE);
@@ -44,10 +53,10 @@ int main (int argc, char** argv)
 
 	std::vector<KeyPoint> keypoints_object, keypoints_scene;					//Initializing data structures for keypoints & descriptors
 	Mat descriptors_object, descriptors_scene;
-	
+
 	SiftFeatureDetector detector; 						
 	SiftDescriptorExtractor extractor;								//Initializing SIFT functions 
-	
+
 
 	detector.detect(img_object, keypoints_object);							//Using the SIFT detector for keypoints								
 	detector.detect(img_scene, keypoints_scene);
@@ -82,11 +91,14 @@ int main (int argc, char** argv)
 		}
 	}
 
+	ASSERT(good_matches.size() != 0 , "No good matches were detected!");	// Checking whether good matches were found
+
+	std::cout<<good_matches.size()<<std::endl;
 	Mat img_matches;
 
 
 	drawMatches (img_object, keypoints_object, img_scene, keypoints_scene, good_matches, img_matches, Scalar::all(-1), Scalar::all(-1), vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
-	
+
 	std::vector<Point2f> obj;
 	std::vector<Point2f> scene;
 
@@ -95,8 +107,8 @@ int main (int argc, char** argv)
 		obj.push_back(keypoints_object[ good_matches[i].queryIdx ].pt);
 		scene.push_back(keypoints_scene[ good_matches[i].trainIdx ].pt);
 	}
-	
-	
+
+
 	   Mat H = findHomography( obj, scene, CV_RANSAC );
 
   //-- Get the corners from the image_1 ( the object to be "detected" )
@@ -125,6 +137,3 @@ int main (int argc, char** argv)
 	 */
 void readme()
 	{ std::cout << " Usage: ./SIFT_descriptor <img1> <img2> <resize parameter in power of two> <threshold multiplier for min distance> \n FOR FURTHER INFO CHECK README \n" << std::endl; }
-
-
-	
