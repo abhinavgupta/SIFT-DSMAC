@@ -1,0 +1,6 @@
+#ifndef UTILS_H
+#define UTILS_H
+
+cv::Mat zoomout( cv::Mat src, int iterations );
+
+#endif

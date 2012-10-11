@@ -130,4 +130,4 @@ int main (int argc, char** argv)
 	 * @function readme
 	 */
 void readme()
-	{ std::cout << " Usage: ./SIFT_descriptor <object_image> <scene_image> <resize parameter in power of two> <threshold multiplier for min distance> \n FOR FURTHER INFO CHECK README \n" << std::endl; }
+	{ std::cout << " Usage: ./SIFT_descriptor <img1> <img2> <resize parameter in power of two> <threshold multiplier for min distance> \n FOR FURTHER INFO CHECK README \n" << std::endl; }

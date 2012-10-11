@@ -1,0 +1,6 @@
+#ifndef ZOOMOUT_H
+#define ZOOMOUT_H
+
+cv::Mat zoomout( cv::Mat src, int iterations );
+
+#endif
