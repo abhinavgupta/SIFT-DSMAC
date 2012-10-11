@@ -11,6 +11,7 @@
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
+#include "utils.hpp"
 
 #define ASSERT(condition, message) \
         if (! (condition)) { \
@@ -44,12 +45,7 @@ int main (int argc, char** argv)
 		return -1;
 	}
 
-	for (int i =0; i< atoi(argv[3]); i++)
-	{
-		pyrDown(img_object_temp, img_object, Size( img_object_temp.cols/2, img_object_temp.rows/2));  // Scaling down the object image by a factor of 2^[argv[3]]
-
-		img_object_temp = img_object;
-	}
+	img_object = zoomout(img_object_temp, atoi(argv[3]));
 
 	std::vector<KeyPoint> keypoints_object, keypoints_scene;					//Initializing data structures for keypoints & descriptors
 	Mat descriptors_object, descriptors_scene;
@@ -134,4 +130,4 @@ int main (int argc, char** argv)
 	 * @function readme
 	 */
 void readme()
-	{ std::cout << " Usage: ./SIFT_descriptor <img1> <img2> <resize parameter in power of two> <threshold multiplier for min distance> \n FOR FURTHER INFO CHECK README \n" << std::endl; }
+	{ std::cout << " Usage: ./SIFT_descriptor <object_image> <scene_image> <resize parameter in power of two> <threshold multiplier for min distance> \n FOR FURTHER INFO CHECK README \n" << std::endl; }

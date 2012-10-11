@@ -23,9 +23,11 @@ CMake 2.8
 
 BUILDIING FROM SOURCE:
 
-1. Go to the directory and run the following commands:
+1. USE CMAKE
 
-cmake .
+mkdir build
+cd build
+cmake ..
 make
 
 This should make the required files and the executable as well
@@ -33,7 +35,7 @@ This should make the required files and the executable as well
 
 RUNNING THE CODE:
 
-./SIFT_descriptor <img1> <img2> <resize parameter in power of two> <threshold multiplier for min distance>
+./SIFT_descriptor <Object image> <Scene Image> <resize parameter in power of two> <threshold multiplier for min distance>
 
 img1 : Object Image (This will be the zoomed in version)
 img2 : Scene Image (This will be the Map version, scaled out as compared to the object image)
