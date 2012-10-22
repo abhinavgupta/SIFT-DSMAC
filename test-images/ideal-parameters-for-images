@@ -1,0 +1,10 @@
+This document will tell you the ideal parameters for the test images here.
+
+1. TEST.png swiss.png -> resize of 0.09 and 10 matches
+2. object.png scene.png -> resize of 0.3 and 5 matches
+3. object2.png scene.png -> resize of 0.1 and 5 matches
+
+
+The box box_in_scene are the best images to try your hands by varying the parameters.
+
+As you can see the object object2 series, the closer zoomup makes a difference in the resize parameter keeping the matches parameter rather constant. 
