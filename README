@@ -35,12 +35,12 @@ This should make the required files and the executable as well
 
 RUNNING THE CODE:
 
-./SIFT_descriptor <Object image> <Scene Image> <resize parameter in power of two> <threshold multiplier for min distance>
+./SIFT_descriptor <Object image> <Scene Image> <resize parameter in power of two> <number of matches to be considered>
 
 img1 : Object Image (This will be the zoomed in version)
 img2 : Scene Image (This will be the Map version, scaled out as compared to the object image)
-resize parameter : This parameter is to give a power index to scale down the image. An input k will scale down by 2^k (In an UAV, this parameter will be a function of height of the UAV)
-Threshold multipler for min distance: Depending on the number of "good matches" recived, this parameter will give an appropriate multipler to filter out the best possible matches. Heuristically can be made a function of the resize parameter and consequently the height.
+resize parameter : This parameter will scale the image. and float value k will change the image size k times. In most cases k < 0 (In an UAV, this parameter will be a function of height of the UAV)
+number of matches to be considered : This parameter defines the number of matches to be used for the purpose of homography calculations.
 
 
 AUTHORS:
