@@ -1,9 +1,8 @@
-
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
 #include <iostream>
-#include <assert.h>
+#include <algorithm>
 #include "opencv2/core/core.hpp"
 #include "opencv2/features2d/features2d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
@@ -11,17 +10,16 @@
 #include "opencv2/calib3d/calib3d.hpp"
 #include "opencv2/nonfree/features2d.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
-#include "utils.hpp"
-
-#define ASSERT(condition, message) \
-        if (! (condition)) { \
-            std::cerr << "\nAssertion `" #condition "` failed "	\
-			<< "\nLine : " << __LINE__ << "\n" << message << std::endl; \
-            std::exit(EXIT_FAILURE); \
-        } \
 
 
 using namespace cv;
+
+//Sorting Comparison Function - Added by Ritesh
+bool myobject (DMatch i,DMatch j) 
+{ 
+	return (i.distance<j.distance); 
+}
+
 
 void readme();												//README function for showing usage
 
@@ -45,7 +43,10 @@ int main (int argc, char** argv)
 		return -1;
 	}
 
-	img_object = zoomout(img_object_temp, atoi(argv[3]));
+	float size = atof(argv[3]);
+	
+	resize(img_object_temp, img_object, Size(), size, size, INTER_AREA);
+	
 
 	std::vector<KeyPoint> keypoints_object, keypoints_scene;					//Initializing data structures for keypoints & descriptors
 	Mat descriptors_object, descriptors_scene;
@@ -78,21 +79,24 @@ int main (int argc, char** argv)
 	printf ("-- Min Distance : %f \n", min_dist);
 
 	std::vector<DMatch> good_matches;
-
-	for(int i = 0; i < descriptors_object.rows; i++)
-	{
-		if (matches[i].distance < atoi(argv[4])*min_dist)					//Classifying good matches from generic matches by defining a threshold
+	
+	std::sort(matches.begin(),matches.end(),myobject);
+	
+	int number_of_matches = atoi(argv[4]);
+	
+	if(number_of_matches > matches.size())
 		{
-			good_matches.push_back(matches[i]);
-		}
+			number_of_matches = matches.size();
+			}
+	
+	for(int i = 0; i < atoi(argv[4]) ; i++)
+	{
+		good_matches.push_back(matches[i]);
 	}
-
-	std::cout<<good_matches.size()<<std::endl;
-	ASSERT(good_matches.size() >= 4 , "Not enough good matches were detected!");	// Checking whether good matches were found
 
 	Mat img_matches;
 
-	drawMatches (img_object, keypoints_object, img_scene, keypoints_scene, good_matches, img_matches, Scalar::all(-1), Scalar::all(-1), vector<char>(), DrawMatchesFlags::NOT_DRAW_SINGLE_POINTS);
+	drawMatches (img_object, keypoints_object, img_scene, keypoints_scene, good_matches, img_matches, Scalar::all(-1), Scalar::all(-1), vector<char>(), DrawMatchesFlags::DRAW_RICH_KEYPOINTS);
 
 	std::vector<Point2f> obj;
 	std::vector<Point2f> scene;
@@ -130,4 +134,5 @@ int main (int argc, char** argv)
 	 * @function readme
 	 */
 void readme()
-	{ std::cout << " Usage: ./SIFT_descriptor <object_image> <scene_image> <resize parameter in power of two> <threshold multiplier for min distance> \n FOR FURTHER INFO CHECK README \n" << std::endl; }
+	{ std::cout << " Usage: ./SIFT_descriptor <object_image> <scene_image> <resize parameter> <number of matches to be used (integer)> \n FOR FURTHER INFO CHECK README \n" << std::endl; }
+
