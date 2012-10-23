@@ -15,7 +15,7 @@
 using namespace cv;
 
 //Sorting Comparison Function - Added by Ritesh
-bool myobject (DMatch i,DMatch j) 
+bool myobject (const DMatch& i,const DMatch& j) 
 { 
 	return (i.distance<j.distance); 
 }
