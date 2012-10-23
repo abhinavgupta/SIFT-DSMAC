@@ -15,7 +15,7 @@
 using namespace cv;
 
 //Sorting Comparison Function - Added by Ritesh
-bool myobject (DMatch i,DMatch j) 
+bool myobject (const DMatch& i,const DMatch& j) 
 { 
 	return (i.distance<j.distance); 
 }
@@ -64,19 +64,6 @@ int main (int argc, char** argv)
 	FlannBasedMatcher matcher;				
 	std::vector <DMatch> matches;									//Initializing matcher and vector for matches extracted
 	matcher.match( descriptors_object, descriptors_scene, matches);
-
-	double max_dist = 0;
-	double min_dist = 100;										//Initializing distance measuremenets for matches
-
-	for (int i = 0; i <descriptors_object.rows; i++)
-	{
-		double dist = matches[i].distance;	
-		if( dist < min_dist) min_dist = dist;							// finding max and min distance values
-		if( dist > max_dist) max_dist = dist;
-	}
-
-	printf ("-- Max Distance : %f \n", max_dist);
-	printf ("-- Min Distance : %f \n", min_dist);
 
 	std::vector<DMatch> good_matches;
 	
