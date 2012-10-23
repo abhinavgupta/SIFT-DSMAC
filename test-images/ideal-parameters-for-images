@@ -7,4 +7,6 @@ This document will tell you the ideal parameters for the test images here.
 
 The box box_in_scene are the best images to try your hands by varying the parameters.
 
-As you can see the object object2 series, the closer zoomup makes a difference in the resize parameter keeping the matches parameter rather constant. 
+As you can in see the object object2 series, the closer zoomup makes a difference in the resize parameter 
+keeping the matches parameter rather constant, thus showing that in a UAV aaplication, once a thorough 
+callibration is done, the final output depends on the zoomout parameter and thus the height of the vehicle.
